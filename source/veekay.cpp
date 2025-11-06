@@ -140,13 +140,15 @@ int veekay::run(const veekay::ApplicationInfo& app_info) {
 
 		vkb::PhysicalDeviceSelector physical_device_selector(instance);
 
-		VkPhysicalDeviceFeatures device_features{
-			.samplerAnisotropy = true,
-		};
+		VkPhysicalDeviceFeatures device_features{};
+
+		device_features.samplerAnisotropy = VK_TRUE;
+		device_features.fillModeNonSolid = VK_TRUE;
+		device_features.wideLines = VK_TRUE;
 
 		auto selector_result = physical_device_selector.set_surface(vk_surface)
-		                                               .set_required_features(device_features)
-		                                               .select();
+													   .set_required_features(device_features)
+													   .select();
 		if (!selector_result) {
 			std::cerr << selector_result.error().message() << '\n';
 			return 1;
